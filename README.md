@@ -4,6 +4,7 @@ Arquivo config.json
 
 ```json
 {
-
+  "rules": [
+  ]
 }
 ```
