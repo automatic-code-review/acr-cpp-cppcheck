@@ -18,7 +18,12 @@ def review(config):
 
     comments = []
 
-    for error in data['results']['errors']['error']:
+    errors = data['results']['errors']['error']
+
+    if not isinstance(errors, list):
+        errors = [errors]
+
+    for error in errors:
         id_error = error['@id']
 
         if id_error not in rules:
