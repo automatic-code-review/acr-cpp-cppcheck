@@ -8,6 +8,10 @@ def review(config):
     rules = config['rules']
     path_source = config['path_source']
 
+    if not __has_cpp_files(path_source):
+        print('acr-cpp-cppcheck não possui arquivo .cpp, ignorando verificação')
+        return []
+
     output = "output.xml"
     path_size = len(path_source) + 1
 
@@ -55,6 +59,13 @@ def review(config):
 
     return comments
 
+def __has_cpp_files(directory):
+    for root, dirs, files in os.walk( directory ):
+        for file in files:
+            if file.endswith( ".cpp" ):
+                return True
+
+    return False
 
 def __run_cppcheck(path_source, output):
     params = [
