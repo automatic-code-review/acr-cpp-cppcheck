@@ -27,6 +27,9 @@ def review(config):
         msg_error = error['@msg']
         detail_error = error['@verbose']
 
+        if 'location' not in error:
+            continue
+
         location_error = error['location']
 
         if isinstance(location_error, list):
@@ -46,6 +49,12 @@ def review(config):
         comments.append({
             'id': __generate_md5(comment),
             'comment': comment,
+            "position": {
+                'language': 'c++',
+                'path': file_error,
+                'startInLine': line_error,
+                'endInLine': line_error
+            }
         })
 
     return comments
