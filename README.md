@@ -1,4 +1,4 @@
-# acr-extension-name
+# acr-cpp-cppcheck
 
 Arquivo config.json
 
