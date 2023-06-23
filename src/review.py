@@ -61,20 +61,22 @@ def review(config):
             "position": {
                 'language': 'c++',
                 'path': file_error,
-                'startInLine': line_error,
-                'endInLine': line_error
+                'startInLine': int(line_error),
+                'endInLine': int(line_error)
             }
         })
 
     return comments
 
+
 def __has_cpp_files(directory):
-    for root, dirs, files in os.walk( directory ):
+    for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.endswith( ".cpp" ):
+            if file.endswith(".cpp"):
                 return True
 
     return False
+
 
 def __run_cppcheck(path_source, output):
     params = [
