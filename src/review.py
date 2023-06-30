@@ -42,17 +42,31 @@ def review(config):
         location_error = error['location']
 
         if isinstance(location_error, list):
-            location_error = location_error[0]
+            end_line = None
+            start_line = None
 
-        file_error = location_error['@file'][path_size:]
-        line_error = location_error['@line']
+            for location_error_current in location_error:
+                current_line = location_error_current['@line']
+
+                if end_line is None or end_line < current_line:
+                    end_line = current_line
+
+                if start_line is None or start_line > current_line:
+                    start_line = current_line
+
+            file_error = location_error[0]['@file'][path_size:]
+
+        else:
+            start_line = location_error['@line']
+            end_line = start_line
+            file_error = location_error['@file'][path_size:]
 
         details = [
             f"Type: {id_error}<br>",
             f"<b>Message: {msg_error}</b><br>",
             f"<b>Detail: {detail_error}</b><br>",
             f"Arquivo: {file_error}",
-            f"Linha: {line_error}",
+            f"Linha: {start_line} até {end_line}",
         ]
         comment = "<br>".join(details)
         comments.append({
@@ -61,8 +75,8 @@ def review(config):
             "position": {
                 'language': 'c++',
                 'path': file_error,
-                'startInLine': int(line_error),
-                'endInLine': int(line_error)
+                'startInLine': int(start_line),
+                'endInLine': int(end_line)
             }
         })
 
